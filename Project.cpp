@@ -39,7 +39,7 @@ void Initialize(void)
 {
     MacUILib_init();
     MacUILib_clearScreen();
-
+    int i,j;
     exitFlag = false;
 }
 
@@ -55,7 +55,22 @@ void RunLogic(void)
 
 void DrawScreen(void)
 {
+    int i,j;
     MacUILib_clearScreen();    
+    for(j=0;j<10;j++){
+        for (i=0; i<20; i++){
+            if (i==0 || i==19||j==0||j==9){
+                MacUILib_printf ("#");
+            }
+            // else if (i == pos.x && j== pos.y){
+            //     MacUILib_printf ("%c",pos.symbol);
+            // }
+            else{
+                MacUILib_printf (" ");
+            }
+        }
+        MacUILib_printf ("\n");
+    }
 }
 
 void LoopDelay(void)
