@@ -30,67 +30,62 @@ void Player::updatePlayerDir()
 {
     char input = mainGameMechsRef->getInput();
     // PPA3 input processing logic   
-    switch (myDir)
+        if(input != 0)  // if not null character
     {
-    case LEFT:
-        if (input == 'w')
-        {
-            myDir = UP;
-        }
-        if (input == 's')
-        {
-            myDir = DOWN;
-        }
-        break;
-    case RIGHT:
-        if (input == 'w')
-        {
-            myDir = UP;
-        }
-        if (input == 's')
-        {
-            myDir = DOWN;
-        }
-        break;
-    case UP:
-        if (input == 'a')
-        {
-            myDir = LEFT;
-        }
-        if (input == 'd')
-        {
-            myDir = RIGHT;
-        }
-        break;
-    case DOWN:
-        if (input == 'a')
-        {
-            myDir = LEFT;
-        }
-        if (input == 'd')
-        {
-            myDir = RIGHT;
-        }
-        break;
+        switch(input)
+        {                      
+            case 8:  // exit with backspace
+                exitFlag = 1;
+                break;
 
-    default:
-        if (input == 'a')
-        {
-            myDir = LEFT;
+            case 'w':
+            case 'W':
+                if (direction == RIGHT||direction == LEFT|| direction == STOP){
+
+                    direction = UP;
+                }
+                break;
+            case 'a':
+            case 'A':
+                if (direction == UP||direction == DOWN|| direction == STOP){
+
+                    direction = LEFT;
+                }
+                break;
+            case 's':
+            case 'S':
+                if (direction == RIGHT||direction == LEFT|| direction == STOP){
+
+                    direction = DOWN;
+                }
+                break;
+            case 'd':
+            case 'D':
+                if (direction == UP||direction == DOWN|| direction == STOP){
+
+                    direction = RIGHT;
+                }
+                break;   
+            case '1':
+                speed = 225000;
+                break;
+            case '2':
+                speed = 175000;
+                break;
+            case '3':
+                speed = 125000;
+                break;
+            case '4':
+                speed = 100000;
+                break;
+            case '5':
+                speed = 75000;
+                break;
+
+            default:
+                break;
         }
-        if (input == 'd')
-        {
-            myDir = RIGHT;
-        }
-        if (input == 'w')
-        {
-            myDir = UP;
-        }
-        if (input == 's')
-        {
-            myDir = DOWN;
-        }
-        break;
+        input = 0;
     }
 
 }
@@ -98,39 +93,29 @@ void Player::updatePlayerDir()
 void Player::movePlayer()
 {
     // PPA3 Finite State Machine logic
-    switch (myDir)
-    {
-    case LEFT:
-        playerPos.pos->y--;
-        if (playerPos.pos->y < 1)
-        {
-            playerPos.pos->y = mainGameMechsRef->getBoardSizeX()-2;
+ if (direction == UP){
+        object.y = (object.y-1);
+        if (object.y == 0){
+            object.y = 8;
         }
-        break;
-    case RIGHT:
-        playerPos.pos->y++;
-        if (playerPos.pos->y > mainGameMechsRef->getBoardSizeX()-2)
-        {
-           playerPos.pos->y = 1;
+    }
+    if (direction == DOWN){
+        object.y = (object.y+1);
+        if (object.y == 9){
+            object.y = 1;
         }
-        break;
-    case UP:
-        playerPos.pos->x--;
-        if (playerPos.pos->x < 1)
-        {
-            playerPos.pos->x = mainGameMechsRef->getBoardSizeY()-2;
+    }
+    if (direction == RIGHT){
+        object.x = (object.x+1);
+        if (object.x == 19){
+            object.x = 1;
         }
-        break;
-    case DOWN:
-        playerPos.pos->x++;
-        if (playerPos.pos->x > mainGameMechsRef->getBoardSizeY()-2)
-        {
-            playerPos.pos->x = 1;
+    }
+    if (direction == LEFT){
+        object.x = (object.x-1);
+        if (object.x == 0){
+            object.x = 18;
         }
-        break;
-
-    default:
-        break;
     }
 }
 

@@ -41,10 +41,8 @@ void Initialize(void)
 {
     MacUILib_init();
     MacUILib_clearScreen();
-    int i,j;
     myGM = new GameMechs();
     myPlayer=new Player(myGM);
-    myGM = new GameMechs();
 }
 
 void GetInput(void)
@@ -68,6 +66,8 @@ void RunLogic(void)
             myGM->setLoseFlag();
         }
         
+        myPlayer -> updatePlayerDir();
+        myPlayer -> movePlayer();
         myGM-> clearInput();
     }
 }
