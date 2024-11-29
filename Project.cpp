@@ -1,17 +1,13 @@
 #include <iostream>
 #include "MacUILib.h"
 #include "objPos.h"
-#include "Player.h"
 #include "GameMechs.h"
-#include "objPosArrayList.h"
-
+#include "Player.h"
 using namespace std;
 
 #define DELAY_CONST 100000
-
-
-Player *snake;
-GameMechs *game;
+GameMechs *myGM;
+Player *myPlayer;
 
 
 void Initialize(void);
@@ -28,7 +24,7 @@ int main(void)
 
     Initialize();
 
-    while(game->getExitFlagStatus() == false)  
+    while(myGM->getExitFlagStatus() ==false)  
     {
         GetInput();
         RunLogic();
@@ -45,62 +41,61 @@ void Initialize(void)
 {
     MacUILib_init();
     MacUILib_clearScreen();
-    game = new GameMechs();
-    snake = new Player(game);    
-
+    int i,j;
+    myGM = new GameMechs();
+    myPlayer=new Player(myGM);
 }
 
 void GetInput(void)
 {
-   int input = MacUILib_hasChar();
-   if (input != 0)
-    {
-        game->setInput(MacUILib_getChar());
+   if(MacUILib_hasChar()!= 0){
+        myGM->setInput(MacUILib_getChar());
     }
 }
 
 void RunLogic(void)
-{   
-
-
-    char input = game->getInput();
-
-    if(input == 27){
-        game->setExitTrue();
-    } else if (input == '1'){
-        game->incrementScore();
-    } else if (input == 'l'){
-        game->setLoseFlag();
-    
+{
+    if(myGM->getInput() != 0)  // if not null character
+    {
+        if (myGM->getInput() == 8){
+            myGM->setExitTrue();
+        }
+        else if(myGM->getInput() == 'i'){
+            myGM->incrementScore();
+        }
+        else if(myGM->getInput() == 'z'){
+            myGM->setLoseFlag();
+        }
+        
+        myPlayer -> updatePlayerDir();
+        myPlayer -> movePlayer();
+        myGM-> clearInput();
     }
-    snake->updatePlayerDir();
-    snake->movePlayer();
-    game->clearInput();
-    
 }
 
 void DrawScreen(void)
 {
+    int i,j;
+    objPos playerPos = myPlayer -> getPlayerPos();
+    MacUILib_printf("Player[x,y] - [%d, %d], %c",playerPos.pos->x,playerPos.pos->y,playerPos.symbol);
+
+    int const xnum = myGM -> getBoardSizeX();
+    int const ynum = myGM -> getBoardSizeY();
     MacUILib_clearScreen();    
-
-
-    for(int i = 0; i < game->getBoardSizeY(); i++){
-        for(int j = 0; j < game->getBoardSizeX(); j++){
-            if(i == 0 || i == game->getBoardSizeY()-1|| j == 0 || j == game->getBoardSizeX()-1){
-                MacUILib_printf("%c", '#');
+    for(j=0;j<ynum;j++){
+        for (i=0; i<xnum; i++){
+            if (i==0 || i==xnum-1||j==0||j==ynum-1){
+                MacUILib_printf ("#");
             }
-            else if (i == snake->getPlayerPos().pos->x && j == snake->getPlayerPos().pos->y){
-                MacUILib_printf("%c", snake->getPlayerPos().getSymbol());
+            else if (i == playerPos.pos->x && j== playerPos.pos->y){
+                 MacUILib_printf ("%c",playerPos.symbol);
             }
-            else
-            {
-                
-                MacUILib_printf("%c",' ');
+            else{
+                MacUILib_printf (" ");
             }
         }
-        MacUILib_printf("\n");
+        MacUILib_printf ("\n");
     }
-    MacUILib_printf("Score: %d", game->getScore());
 }
 
 void LoopDelay(void)
@@ -111,14 +106,16 @@ void LoopDelay(void)
 
 void CleanUp(void)
 {
-    game->clearInput();
-    MacUILib_clearScreen();    
-
-    if (game->getLoseFlagStatus() == true ){
-        MacUILib_printf("Snake ate itself! Game over!");
-    } else {
-        MacUILib_printf("You Win!");
+    myGM->clearInput();
+    MacUILib_clearScreen();   
+    if (myGM-> getLoseFlagStatus() == true){
+        MacUILib_printf("Snake ran into itself. Game Over.");
+    } 
+    else{
+        MacUILib_printf("YOU WIN!");
     }
+    delete myPlayer;
 
+    delete myGM;
     MacUILib_uninit();
 }
