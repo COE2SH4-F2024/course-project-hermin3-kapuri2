@@ -41,10 +41,8 @@ void Initialize(void)
 {
     MacUILib_init();
     MacUILib_clearScreen();
-    int i,j;
-    myPlayer=new Player(nullptr);
-    myGM = new GameMechs();
     myPlayer=new Player(myGM);
+    myGM = new GameMechs();
 }
 
 void GetInput(void)
@@ -86,7 +84,7 @@ void DrawScreen(void)
             if (i==0 || i==xnum-1||j==0||j==ynum-1){
                 MacUILib_printf ("#");
             }
-            // else if (i == pos.x && j== pos.y){
+            // else if (i == getplayerpos.x && j== pos.y){
             //     MacUILib_printf ("%c",pos.symbol);
             // }
             else{
