@@ -48,23 +48,21 @@ void Initialize(void)
 
 void GetInput(void)
 {
-   if(MacUILib_hasChar()!= 0){
-        myGM->setInput(MacUILib_getChar());
-    }
+   myGM -> collectAsyncInput();
 }
 
 void RunLogic(void)
 {
     
-    if (myGM->getInput() == 8){
-        myGM->setExitTrue();
-    }
-    else if(myGM->getInput() == 'i'){
-        myGM->incrementScore();
-    }
-    else if(myGM->getInput() == 'z'){
-        myGM->setLoseFlag();
-    }
+    // if (myGM->getInput() == 8){
+    //     myGM->setExitTrue();
+    // }
+    // else if(myGM->getInput() == 'i'){
+    //     myGM->incrementScore();
+    // }
+    // else if(myGM->getInput() == 'z'){
+    //     myGM->setLoseFlag();
+    // }
     myPlayer->updatePlayerDir();
     myPlayer->movePlayer();
     myGM-> clearInput();
