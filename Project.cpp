@@ -41,7 +41,6 @@ void Initialize(void)
 {
     MacUILib_init();
     MacUILib_clearScreen();
-    int i,j;
     myGM = new GameMechs();
     myPlayer=new Player(myGM);
 }
@@ -66,7 +65,8 @@ void RunLogic(void)
         else if(myGM->getInput() == 'z'){
             myGM->setLoseFlag();
         }
-        
+        myPlayer -> updatePlayerDir();
+        myPlayer -> movePlayer();
         myGM-> clearInput();
     }
 }
