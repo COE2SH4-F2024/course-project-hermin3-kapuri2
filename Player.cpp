@@ -30,67 +30,38 @@ void Player::updatePlayerDir()
 {
     char input = mainGameMechsRef->getInput();
     // PPA3 input processing logic   
-    switch (myDir)
+    if(input != 0)  // if not null character
     {
-    case LEFT:
-        if (input == 'w')
-        {
-            myDir = UP;
+        switch(input)
+        {                      
+            case 'w':
+            case 'W':
+                if (myDir == RIGHT||myDir == LEFT|| myDir == STOP){
+                    myDir= UP;
+                }
+                break;
+            case 'a':
+            case 'A':
+                if (myDir == UP||myDir == DOWN|| myDir == STOP){
+                    myDir = LEFT;
+                }
+                break;
+            case 's':
+            case 'S':
+                if (myDir == RIGHT||myDir == LEFT|| myDir == STOP){
+                    myDir = DOWN;
+                }
+                break;
+            case 'd':
+            case 'D':
+                if (myDir == UP||myDir == DOWN|| myDir == STOP){
+                    myDir = RIGHT;
+                }
+                break;   
+            default:
+                break;
         }
-        if (input == 's')
-        {
-            myDir = DOWN;
-        }
-        break;
-    case RIGHT:
-        if (input == 'w')
-        {
-            myDir = UP;
-        }
-        if (input == 's')
-        {
-            myDir = DOWN;
-        }
-        break;
-    case UP:
-        if (input == 'a')
-        {
-            myDir = LEFT;
-        }
-        if (input == 'd')
-        {
-            myDir = RIGHT;
-        }
-        break;
-    case DOWN:
-        if (input == 'a')
-        {
-            myDir = LEFT;
-        }
-        if (input == 'd')
-        {
-            myDir = RIGHT;
-        }
-        break;
-
-    default:
-        if (input == 'a')
-        {
-            myDir = LEFT;
-        }
-        if (input == 'd')
-        {
-            myDir = RIGHT;
-        }
-        if (input == 'w')
-        {
-            myDir = UP;
-        }
-        if (input == 's')
-        {
-            myDir = DOWN;
-        }
-        break;
+        input = 0;
     }
 
 }
@@ -98,38 +69,30 @@ void Player::updatePlayerDir()
 void Player::movePlayer()
 {
     // PPA3 Finite State Machine logic
-    switch (myDir)
-    {
-    case LEFT:
-        playerPos.pos->y--;
-        if (playerPos.pos->y < 1)
-        {
-            playerPos.pos->y = mainGameMechsRef->getBoardSizeX()-2;
+ 
+ if (myDir == UP){
+        playerPos.pos->y = (playerPos.pos->y-1);
+        if (playerPos.pos->y == 0){
+            playerPos.pos->y = mainGameMechsRef->getBoardSizeY()-2;
         }
-        break;
-    case RIGHT:
-        playerPos.pos->y++;
-        if (playerPos.pos->y > mainGameMechsRef->getBoardSizeX()-2)
-        {
-           playerPos.pos->y = 1;
+    }
+    if (myDir == DOWN){
+        playerPos.pos->y = (playerPos.pos->y+1);
+        if (playerPos.pos->y == mainGameMechsRef->getBoardSizeY()-1){
+            playerPos.pos->y = 1;
         }
-        break;
-    case UP:
-        playerPos.pos->x--;
-        if (playerPos.pos->x < 1)
-        {
-            playerPos.pos->x = mainGameMechsRef->getBoardSizeY()-2;
-        }
-        break;
-    case DOWN:
-        playerPos.pos->x++;
-        if (playerPos.pos->x > mainGameMechsRef->getBoardSizeY()-2)
-        {
+    }
+    if (myDir == RIGHT){
+        playerPos.pos->x = (playerPos.pos->x+1);
+        if (playerPos.pos->x == mainGameMechsRef->getBoardSizeX()-1){
             playerPos.pos->x = 1;
         }
-        break;
-    default:
-        break;
+    }
+    if (myDir == LEFT){
+        playerPos.pos->x = (playerPos.pos->x-1);
+        if (playerPos.pos->x == 0){
+            playerPos.pos->x = mainGameMechsRef->getBoardSizeX()-2;
+        }
     }
 }
 
