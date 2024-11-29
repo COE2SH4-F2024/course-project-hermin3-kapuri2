@@ -55,47 +55,16 @@ void RunLogic(void)
 {
     if(myGM->getInput() != 0)  // if not null character
     {
-        switch(myGM->getInput())
-        {                      
-            case 8:  // exit with backspace
-                myGM->setExitTrue();
-                break;
-            case '1':
-                myGM->incrementScore();
-                myGM->setLoseFlag();
-
-            case 'w':
-            case 'W':
-                if (direction == RIGHT||direction == LEFT|| direction == STOP){
-
-                    direction = UP;
-                }
-                break;
-            case 'a':
-            case 'A':
-                if (direction == UP||direction == DOWN|| direction == STOP){
-
-                    direction = LEFT;
-                }
-                break;
-            case 's':
-            case 'S':
-                if (direction == RIGHT||direction == LEFT|| direction == STOP){
-
-                    direction = DOWN;
-                }
-                break;
-            case 'd':
-            case 'D':
-                if (direction == UP||direction == DOWN|| direction == STOP){
-
-                    direction = RIGHT;
-                }
-                break;   
-
-            default:
-                break;
+        if (myGM->getInput() == 8){
+            myGM->setExitTrue();
         }
+        else if(myGM->getInput() == 'i'){
+            myGM->incrementScore();
+        }
+        else if(myGM->getInput() == 'z'){
+            myGM->setLoseFlag();
+        }
+        
         myGM-> clearInput();
     }
 }
