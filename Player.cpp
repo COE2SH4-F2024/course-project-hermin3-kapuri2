@@ -7,6 +7,9 @@ Player::Player(GameMechs* thisGMRef)
     myDir = STOP;
 
     // more actions to be included
+    playerPos.pos->x=5;
+    playerPos.pos->y=10;
+    playerPos.symbol='*';
 }
 
 
@@ -18,6 +21,7 @@ Player::~Player()
 objPos Player::getPlayerPos() const
 {
     // return the reference to the playerPos arrray list
+    return playerPos;
 }
 
 void Player::updatePlayerDir()
