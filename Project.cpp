@@ -41,8 +41,6 @@ void Initialize(void)
 {
     MacUILib_init();
     MacUILib_clearScreen();
-    int i,j;
-    exitFlag = false;
     myPlayer=new Player(nullptr);
     myGM = new GameMechs();
 }
@@ -78,10 +76,6 @@ void DrawScreen(void)
     objPos playerPos = myPlayer -> getPlayerPos();
     MacUILib_printf("Player[x,y] - [%d, %d], %c",playerPos.pos->x,playerPos.pos->y,playerPos.symbol);
 
-    MacUILib_clearScreen(); 
-    for(j=0;j<10;j++){
-        for (i=0; i<20; i++){
-            if (i==0 || i==19||j==0||j==9){
     int const xnum = myGM -> getBoardSizeX();
     int const ynum = myGM -> getBoardSizeY();
     MacUILib_clearScreen();    
