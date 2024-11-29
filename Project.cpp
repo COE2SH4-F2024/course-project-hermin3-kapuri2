@@ -73,8 +73,10 @@ void DrawScreen(void)
 {
     MacUILib_clearScreen();
     int i,j;
+    
     objPos playerPos = myPlayer -> getPlayerPos();
 
+    objPos foodPos = myGM -> getFoodPos();
     int const xnum = myGM -> getBoardSizeX();
     int const ynum = myGM -> getBoardSizeY();   
     for(j=0;j<ynum;j++){
@@ -85,6 +87,9 @@ void DrawScreen(void)
             else if (i == myPlayer->getPlayerPos().pos->x && j == myPlayer->getPlayerPos().pos->y){
                 MacUILib_printf("%c", myPlayer->getPlayerPos().getSymbol());
             }
+            else if ( i == foodPos.pos->x && j == foodPos.pos->y){
+                MacUILib_printf("%c", foodPos.symbol);
+            }
             else{
                 MacUILib_printf (" ");
             }
@@ -92,6 +97,7 @@ void DrawScreen(void)
         MacUILib_printf ("\n");
 
     }
+    foodPos.setObjPos(foodPos.pos->x,foodPos.pos->y, 'o');
     MacUILib_printf("Player[x,y] - [%d, %d], %c",playerPos.pos->x,playerPos.pos->y,playerPos.symbol);
 
 }
