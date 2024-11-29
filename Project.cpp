@@ -16,15 +16,10 @@ void RunLogic(void);
 void DrawScreen(void);
 void LoopDelay(void);
 void CleanUp(void);
-
-
-
 int main(void)
 {
 
     Initialize();
-
-    while(myGM->getExitFlagStatus() ==false)  
     {
         GetInput();
         RunLogic();
@@ -41,61 +36,56 @@ void Initialize(void)
 {
     MacUILib_init();
     MacUILib_clearScreen();
-    int i,j;
-    myGM = new GameMechs();
+     myGM = new GameMechs();
     myPlayer=new Player(myGM);
+    
 }
 
 void GetInput(void)
-{
-   if(MacUILib_hasChar()!= 0){
+{if(MacUILib_hasChar()!= 0){
         myGM->setInput(MacUILib_getChar());
     }
 }
 
 void RunLogic(void)
 {
-    if(myGM->getInput() != 0)  // if not null character
-    {
-        if (myGM->getInput() == 8){
-            myGM->setExitTrue();
-        }
-        else if(myGM->getInput() == 'i'){
-            myGM->incrementScore();
-        }
-        else if(myGM->getInput() == 'z'){
-            myGM->setLoseFlag();
-        }
-        
-        myPlayer -> updatePlayerDir();
-        myPlayer -> movePlayer();
-        myGM-> clearInput();
+
+    if (myGM->getInput() == 8){
+        myGM->setExitTrue();
     }
+    else if(myGM->getInput() == 'i'){
+        myGM->incrementScore();
+    }
+    else if(myGM->getInput() == 'z'){
+        myGM->setLoseFlag();
+    }
+    myPlayer->updatePlayerDir();
+    myPlayer->movePlayer();
+    myGM-> clearInput();
 }
 
 void DrawScreen(void)
 {
+     MacUILib_clearScreen();
     int i,j;
     objPos playerPos = myPlayer -> getPlayerPos();
-    MacUILib_printf("Player[x,y] - [%d, %d], %c",playerPos.pos->x,playerPos.pos->y,playerPos.symbol);
-
     int const xnum = myGM -> getBoardSizeX();
-    int const ynum = myGM -> getBoardSizeY();
-    MacUILib_clearScreen();    
+    int const ynum = myGM -> getBoardSizeY();   
     for(j=0;j<ynum;j++){
         for (i=0; i<xnum; i++){
             if (i==0 || i==xnum-1||j==0||j==ynum-1){
                 MacUILib_printf ("#");
             }
-            else if (i == playerPos.pos->x && j== playerPos.pos->y){
-                 MacUILib_printf ("%c",playerPos.symbol);
-            }
-            else{
+             else if (i == myPlayer->getPlayerPos().pos->x && j == myPlayer->getPlayerPos().pos->y){
+                MacUILib_printf("%c", myPlayer->getPlayerPos().getSymbol());
+             }
+             else{
                 MacUILib_printf (" ");
-            }
+              }
         }
-        MacUILib_printf ("\n");
+         MacUILib_printf ("\n");
     }
+    MacUILib_printf("Player[x,y] - [%d, %d], %c",playerPos.pos->x,playerPos.pos->y,playerPos.symbol);
 }
 
 void LoopDelay(void)
@@ -106,7 +96,7 @@ void LoopDelay(void)
 
 void CleanUp(void)
 {
-    myGM->clearInput();
+     myGM->clearInput();
     MacUILib_clearScreen();   
     if (myGM-> getLoseFlagStatus() == true){
         MacUILib_printf("Snake ran into itself. Game Over.");

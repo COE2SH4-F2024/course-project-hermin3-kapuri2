@@ -128,7 +128,6 @@ void Player::movePlayer()
             playerPos.pos->x = 1;
         }
         break;
-
     default:
         break;
     }
