@@ -7,8 +7,8 @@ Player::Player(GameMechs* thisGMRef)
     myDir = STOP;
 
     // more actions to be included
-    playerPos.pos->x=5;
-    playerPos.pos->y=10;
+    playerPos.pos->x= mainGameMechsRef -> getBoardSizeX() / 2;
+    playerPos.pos->y= mainGameMechsRef -> getBoardSizeY() / 2;
     playerPos.symbol='*';
 }
 
@@ -26,7 +26,71 @@ objPos Player::getPlayerPos() const
 
 void Player::updatePlayerDir()
 {
-        // PPA3 input processing logic          
+    char input = mainGameMechsRef->getInput();
+    // PPA3 input processing logic   
+    switch (myDir)
+    {
+    case LEFT:
+        if (input == 'w')
+        {
+            myDir = UP;
+        }
+        if (input == 's')
+        {
+            myDir = DOWN;
+        }
+        break;
+    case RIGHT:
+        if (input == 'w')
+        {
+            myDir = UP;
+        }
+        if (input == 's')
+        {
+            myDir = DOWN;
+        }
+        break;
+    case UP:
+        if (input == 'a')
+        {
+            myDir = LEFT;
+        }
+        if (input == 'd')
+        {
+            myDir = RIGHT;
+        }
+        break;
+    case DOWN:
+        if (input == 'a')
+        {
+            myDir = LEFT;
+        }
+        if (input == 'd')
+        {
+            myDir = RIGHT;
+        }
+        break;
+
+    default:
+        if (input == 'a')
+        {
+            myDir = LEFT;
+        }
+        if (input == 'd')
+        {
+            myDir = RIGHT;
+        }
+        if (input == 'w')
+        {
+            myDir = UP;
+        }
+        if (input == 's')
+        {
+            myDir = DOWN;
+        }
+        break;
+    }
+
 }
 
 void Player::movePlayer()

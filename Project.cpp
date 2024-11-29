@@ -42,9 +42,8 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
     int i,j;
-    exitFlag = false;
-    myPlayer=new Player(nullptr);
     myGM = new GameMechs();
+    myPlayer=new Player(myGM);
 }
 
 void GetInput(void)
@@ -117,6 +116,7 @@ void CleanUp(void)
     else{
         MacUILib_printf("YOU WIN!");
     }
+    delete myPlayer;
 
     delete myGM;
     MacUILib_uninit();
