@@ -65,6 +65,7 @@ void RunLogic(void)
         else if(myGM->getInput() == 'z'){
             myGM->setLoseFlag();
         }
+        
         myPlayer -> updatePlayerDir();
         myPlayer -> movePlayer();
         myGM-> clearInput();
