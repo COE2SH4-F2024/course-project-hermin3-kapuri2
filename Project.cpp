@@ -9,7 +9,6 @@ using namespace std;
 
 GameMechs *myGM;
 
-bool exitFlag;
 
 void Initialize(void);
 void GetInput(void);
@@ -25,7 +24,7 @@ int main(void)
 
     Initialize();
 
-    while(exitFlag == false)  
+    while(myGM->getExitFlagStatus() ==false)  
     {
         GetInput();
         RunLogic();
@@ -42,27 +41,74 @@ void Initialize(void)
 {
     MacUILib_init();
     MacUILib_clearScreen();
-    int i,j;
-    exitFlag = false;
+    myGM = new GameMechs();
 }
 
 void GetInput(void)
 {
-   
+   if(MacUILib_hasChar()!= 0){
+        myGM->setInput(MacUILib_getChar());
+    }
 }
 
 void RunLogic(void)
 {
-    
+    if(myGM->getInput() != 0)  // if not null character
+    {
+        switch(myGM->getInput())
+        {                      
+            case 8:  // exit with backspace
+                myGM->setExitTrue();
+                break;
+            case '1':
+                myGM->incrementScore();
+                myGM->setLoseFlag();
+
+            case 'w':
+            case 'W':
+                if (direction == RIGHT||direction == LEFT|| direction == STOP){
+
+                    direction = UP;
+                }
+                break;
+            case 'a':
+            case 'A':
+                if (direction == UP||direction == DOWN|| direction == STOP){
+
+                    direction = LEFT;
+                }
+                break;
+            case 's':
+            case 'S':
+                if (direction == RIGHT||direction == LEFT|| direction == STOP){
+
+                    direction = DOWN;
+                }
+                break;
+            case 'd':
+            case 'D':
+                if (direction == UP||direction == DOWN|| direction == STOP){
+
+                    direction = RIGHT;
+                }
+                break;   
+
+            default:
+                break;
+        }
+        myGM-> clearInput();
+    }
 }
 
 void DrawScreen(void)
 {
     int i,j;
+    int const xnum = myGM -> getBoardSizeX();
+    int const ynum = myGM -> getBoardSizeY();
     MacUILib_clearScreen();    
-    for(j=0;j<10;j++){
-        for (i=0; i<20; i++){
-            if (i==0 || i==19||j==0||j==9){
+    for(j=0;j<ynum;j++){
+        for (i=0; i<xnum; i++){
+            if (i==0 || i==xnum-1||j==0||j==ynum-1){
                 MacUILib_printf ("#");
             }
             // else if (i == pos.x && j== pos.y){
@@ -84,7 +130,15 @@ void LoopDelay(void)
 
 void CleanUp(void)
 {
-    MacUILib_clearScreen();    
+    myGM->clearInput();
+    MacUILib_clearScreen();   
+    if (myGM-> getLoseFlagStatus() == true){
+        MacUILib_printf("Snake ran into itself. Game Over.");
+    } 
+    else{
+        MacUILib_printf("YOU WIN!");
+    }
 
+    delete myGM;
     MacUILib_uninit();
 }
