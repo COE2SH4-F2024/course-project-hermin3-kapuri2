@@ -65,7 +65,8 @@ void RunLogic(void)
         else if(myGM->getInput() == 'z'){
             myGM->setLoseFlag();
         }
-        
+        myPlayer->updatePlayerDir();
+        myPlayer->movePlayer();
         myGM-> clearInput();
     }
 }
@@ -84,9 +85,9 @@ void DrawScreen(void)
             if (i==0 || i==xnum-1||j==0||j==ynum-1){
                 MacUILib_printf ("#");
             }
-            // else if (i == getplayerpos.x && j== pos.y){
-            //     MacUILib_printf ("%c",pos.symbol);
-            // }
+            else if (i == playerPos.pos->x && j== playerPos.pos->y){
+                 MacUILib_printf ("%c",playerPos.symbol);
+            }
             else{
                 MacUILib_printf (" ");
             }

@@ -16,6 +16,8 @@ Player::Player(GameMechs* thisGMRef)
 Player::~Player()
 {
     // delete any heap members here
+    delete playerPos.pos;
+    delete mainGameMechsRef;
 }
 
 objPos Player::getPlayerPos() const
@@ -96,6 +98,40 @@ void Player::updatePlayerDir()
 void Player::movePlayer()
 {
     // PPA3 Finite State Machine logic
+    switch (myDir)
+    {
+    case LEFT:
+        playerPos.pos->y--;
+        if (playerPos.pos->y < 1)
+        {
+            playerPos.pos->y = mainGameMechsRef->getBoardSizeX()-2;
+        }
+        break;
+    case RIGHT:
+        playerPos.pos->y++;
+        if (playerPos.pos->y > mainGameMechsRef->getBoardSizeX()-2)
+        {
+           playerPos.pos->y = 1;
+        }
+        break;
+    case UP:
+        playerPos.pos->x--;
+        if (playerPos.pos->x < 1)
+        {
+            playerPos.pos->x = mainGameMechsRef->getBoardSizeY()-2;
+        }
+        break;
+    case DOWN:
+        playerPos.pos->x++;
+        if (playerPos.pos->x > mainGameMechsRef->getBoardSizeY()-2)
+        {
+            playerPos.pos->x = 1;
+        }
+        break;
+
+    default:
+        break;
+    }
 }
 
 // More methods to be added
