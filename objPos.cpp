@@ -22,14 +22,14 @@ objPos::objPos(const objPos& former){
     pos = new Pos;
     pos->x = former.pos->x;
     pos->y = former.pos->y;
-    symbol - former.symbol;
+    symbol = former.symbol;
 
 }
 objPos& objPos:: operator=(const objPos& old){
     pos = new Pos;
     pos->x = old.pos->x;
     pos->y = old.pos->y;
-    symbol - old.symbol;
+    symbol = old.symbol;
 }
 objPos::~objPos(){
     delete pos;

@@ -79,7 +79,7 @@ void DrawScreen(void)
     
     objPos playerPos = myPlayer -> getPlayerPos();
 
-    objPos foodPos = myGM -> getFoodPos();
+    objPos food = myGM -> getFoodPos();
     int const xnum = myGM -> getBoardSizeX();
     int const ynum = myGM -> getBoardSizeY();   
     for(j=0;j<ynum;j++){
@@ -90,8 +90,8 @@ void DrawScreen(void)
             else if (i == myPlayer->getPlayerPos().pos->x && j == myPlayer->getPlayerPos().pos->y){
                 MacUILib_printf("%c", myPlayer->getPlayerPos().getSymbol());
             }
-            else if ( i == foodPos.pos->x && j == foodPos.pos->y){
-                MacUILib_printf("%c", foodPos.symbol);
+            else if ( i == food.pos->x && j == food.pos->y){
+                MacUILib_printf("%c", food.symbol);
             }
             else{
                 MacUILib_printf (" ");
@@ -102,7 +102,7 @@ void DrawScreen(void)
     }
     //foodPos.setObjPos(foodPos.pos->x,foodPos.pos->y, 'o');
     MacUILib_printf("Player[x,y] - [%d, %d] , %c",playerPos.pos->x,playerPos.pos->y,playerPos.symbol);
-    MacUILib_printf("Player[x,y] - [%d, %d] %d, %d",foodPos.pos->x, foodPos.pos->y, xnum, ynum);
+    MacUILib_printf("Player[x,y] - [%d, %d] %d, %d",food.pos->x, food.pos->y, xnum, ynum);
 }
 
 void LoopDelay(void)

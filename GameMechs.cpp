@@ -15,6 +15,9 @@ GameMechs::GameMechs()
     score = 0;
     boardSizeX = 20;
     boardSizeY = 10;
+    foodPos.pos->x = 0;
+    foodPos.pos->y = 0;
+    foodPos.symbol = 'z';
     //food.setObjPos(3,5, 'o');
     foodPos.setObjPos(getFoodPos().pos->x,getFoodPos().pos->y, 'z');
     
@@ -116,6 +119,7 @@ void GameMechs:: generateFood(objPos blockOff){
     foodPos.pos->y = randY2;
     objPos playerPos = myPlayer -> getPlayerPos();
     srand(time(NULL));
+    foodPos.symbol='z';
     while (bad == true){
         bad = false;
         randX = (rand() % (18)) + 1;
