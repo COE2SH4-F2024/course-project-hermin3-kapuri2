@@ -9,7 +9,7 @@ Player::Player(GameMechs* thisGMRef)
     // more actions to be included
     playerPos.pos->x= mainGameMechsRef -> getBoardSizeX() / 2;
     playerPos.pos->y= mainGameMechsRef -> getBoardSizeY() / 2;
-    playerPos.symbol='*';
+    playerPos.symbol = '*';
 }
 
 
@@ -34,30 +34,36 @@ void Player::updatePlayerDir()
     {
         switch(input)
         {                      
+
             case 'w':
             case 'W':
                 if (myDir == RIGHT||myDir == LEFT|| myDir == STOP){
+
                     myDir= UP;
                 }
                 break;
             case 'a':
             case 'A':
                 if (myDir == UP||myDir == DOWN|| myDir == STOP){
+
                     myDir = LEFT;
                 }
                 break;
             case 's':
             case 'S':
                 if (myDir == RIGHT||myDir == LEFT|| myDir == STOP){
+
                     myDir = DOWN;
                 }
                 break;
             case 'd':
             case 'D':
                 if (myDir == UP||myDir == DOWN|| myDir == STOP){
+
                     myDir = RIGHT;
                 }
                 break;   
+
             default:
                 break;
         }
@@ -69,7 +75,6 @@ void Player::updatePlayerDir()
 void Player::movePlayer()
 {
     // PPA3 Finite State Machine logic
- 
  if (myDir == UP){
         playerPos.pos->y = (playerPos.pos->y-1);
         if (playerPos.pos->y == 0){
