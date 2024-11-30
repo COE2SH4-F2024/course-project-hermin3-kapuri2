@@ -7,16 +7,16 @@
 GameMechs::GameMechs()
 {
     srand(time(NULL));
-    int randX2 = (rand() % (getBoardSizeX ()- 2)) + 1;
-    int randY2 = (rand() % (getBoardSizeY() - 2)) + 1;
+    int randX2 = (rand() % (18)) + 1;
+    int randY2 = (rand() % (8)) + 1;
     input =0;
     exitFlag = false;
     loseFlag = false;
     score = 0;
     boardSizeX = 20;
     boardSizeY = 10;
-    food.setObjPos(3,5, 'o');
-    food.setObjPos(randY2,randX2, 'o');
+    //food.setObjPos(3,5, 'o');
+    foodPos.setObjPos(getFoodPos().pos->x,getFoodPos().pos->y, 'z');
     
 }
 
@@ -28,7 +28,7 @@ GameMechs::GameMechs(int boardX, int boardY)
     score = 0;
     boardSizeX = boardX;
     boardSizeY = boardY;
-    food.setObjPos(5,5, 'o');
+    foodPos.setObjPos(5,5, 'o');
     
 }
 
@@ -110,19 +110,18 @@ void GameMechs:: generateFood(objPos blockOff){
     int randY;
     int xRange = getBoardSizeX();
     int yRange = getBoardSizeY();
-    objPos foodPos = getFoodPos();
+    int randX2 = (rand() % (18)) + 1;
+    int randY2 = (rand() % (8)) + 1;
+    foodPos.pos->x = randX2;
+    foodPos.pos->y = randY2;
     objPos playerPos = myPlayer -> getPlayerPos();
     srand(time(NULL));
-    // blockOff.pos->x = (rand() % (xRange - 2)) + 1;
-    // blockOff.pos->y = (rand() % (yRange - 2)) + 1;
     while (bad == true){
         bad = false;
-        randX = (rand() % (xRange - 2)) + 1;
-        randY = (rand() % (yRange - 2)) + 1;
-        int randX2 = (rand() % (xRange - 2)) + 1;
-        int randY2 = (rand() % (yRange - 2)) + 1;
-        foodPos.pos->x = randX2;
-        foodPos.pos->y = randY2;
+        randX = (rand() % (18)) + 1;
+        randY = (rand() % (8)) + 1;
+        
+        
         
         if(randX == foodPos.pos->x && randY == foodPos.pos->y||randX == blockOff.pos->x && randY == blockOff.pos->y)
         {
@@ -142,5 +141,5 @@ void GameMechs:: generateFood(objPos blockOff){
     // food.setObjPos(getFoodPos().pos->x,getFoodPos().pos->y, 'o');
 }
 objPos GameMechs:: getFoodPos() const{
-    return food;
+    return foodPos;
 }
