@@ -1,17 +1,22 @@
 #include "GameMechs.h"
 #include "MacUILib.h"
 #include "Player.h"
+#include <stdlib.h>
+#include <cstdlib>
 
 GameMechs::GameMechs()
 {
+    srand(time(NULL));
+    int randX2 = (rand() % (getBoardSizeX ()- 2)) + 1;
+    int randY2 = (rand() % (getBoardSizeY() - 2)) + 1;
     input =0;
     exitFlag = false;
     loseFlag = false;
     score = 0;
     boardSizeX = 20;
     boardSizeY = 10;
-    //food.setObjPos(1,5, 'o');
-    food.setObjPos(getFoodPos().pos->x,getFoodPos().pos->y, 'o');
+    food.setObjPos(3,5, 'o');
+    food.setObjPos(randY2,randX2, 'o');
     
 }
 
@@ -24,7 +29,7 @@ GameMechs::GameMechs(int boardX, int boardY)
     boardSizeX = boardX;
     boardSizeY = boardY;
     food.setObjPos(5,5, 'o');
-    food.setObjPos(getFoodPos().pos->x,getFoodPos().pos->y, 'o');
+    
 }
 
 // do you need a destructor?
@@ -108,8 +113,8 @@ void GameMechs:: generateFood(objPos blockOff){
     objPos foodPos = getFoodPos();
     objPos playerPos = myPlayer -> getPlayerPos();
     srand(time(NULL));
-    blockOff.pos->x = (rand() % (xRange - 2)) + 1;
-    blockOff.pos->y = (rand() % (yRange - 2)) + 1;
+    // blockOff.pos->x = (rand() % (xRange - 2)) + 1;
+    // blockOff.pos->y = (rand() % (yRange - 2)) + 1;
     while (bad == true){
         bad = false;
         randX = (rand() % (xRange - 2)) + 1;
@@ -132,8 +137,9 @@ void GameMechs:: generateFood(objPos blockOff){
         }
 
     }
-    food.setObjPos(foodPos.pos->x,foodPos.pos->y, 'o');
-    food.setObjPos(foodPos.pos->x,foodPos.pos->y, 'o');
+    // food.setObjPos(foodPos.pos->x,foodPos.pos->y, 'o');
+    // food.setObjPos(foodPos.pos->x,foodPos.pos->y, 'o');
+    // food.setObjPos(getFoodPos().pos->x,getFoodPos().pos->y, 'o');
 }
 objPos GameMechs:: getFoodPos() const{
     return food;

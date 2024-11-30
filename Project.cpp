@@ -3,6 +3,8 @@
 #include "objPos.h"
 #include "GameMechs.h"
 #include "Player.h"
+#include <time.h>
+#include <stdlib.h>
 using namespace std;
 
 #define DELAY_CONST 100000
@@ -97,9 +99,9 @@ void DrawScreen(void)
         MacUILib_printf ("\n");
 
     }
-    foodPos.setObjPos(foodPos.pos->x,foodPos.pos->y, 'o');
-    MacUILib_printf("Player[x,y] - [%d, %d], %c",playerPos.pos->x,playerPos.pos->y,playerPos.symbol);
-
+    //foodPos.setObjPos(foodPos.pos->x,foodPos.pos->y, 'o');
+    MacUILib_printf("Player[x,y] - [%d, %d] , %c",playerPos.pos->x,playerPos.pos->y,playerPos.symbol);
+    MacUILib_printf("Player[x,y] - [%d, %d] %d, %d",foodPos.pos->x, foodPos.pos->y, xnum, ynum);
 }
 
 void LoopDelay(void)
