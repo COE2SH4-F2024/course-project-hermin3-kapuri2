@@ -105,7 +105,7 @@ void GameMechs::clearInput()
 
 // More methods should be added here
 
-void GameMechs:: generateFood(objPos blockOff){
+void GameMechs:: generateFood(const objPosArrayList* blockOff){
 
     Player *myPlayer;
     bool bad= true;
@@ -117,17 +117,16 @@ void GameMechs:: generateFood(objPos blockOff){
     int randY2 = (rand() % (8)) + 1;
     foodPos.pos->x = randX2;
     foodPos.pos->y = randY2;
-    objPos playerPos = myPlayer -> getPlayerPos();
+    objPosArrayList* playerPos = myPlayer -> getPlayerPos();
     srand(time(NULL));
     foodPos.symbol='z';
     while (bad == true){
         bad = false;
         randX = (rand() % (18)) + 1;
         randY = (rand() % (8)) + 1;
-        
-        
-        
-        if(randX == foodPos.pos->x && randY == foodPos.pos->y||randX == blockOff.pos->x && randY == blockOff.pos->y)
+    for(int i=0;i<blockOff->getSize()-1;i++)
+    {
+        if(randX == foodPos.pos->x && randY == foodPos.pos->y||randX == blockOff->getElement(i).pos->x && randY == blockOff->getElement(i).pos->y)
         {
             bad =true;
         }
@@ -138,8 +137,11 @@ void GameMechs:: generateFood(objPos blockOff){
         else {
             bad =true;
         }
-
+        
     }
+    }
+        
+        
     // food.setObjPos(foodPos.pos->x,foodPos.pos->y, 'o');
     // food.setObjPos(foodPos.pos->x,foodPos.pos->y, 'o');
     // food.setObjPos(getFoodPos().pos->x,getFoodPos().pos->y, 'o');
