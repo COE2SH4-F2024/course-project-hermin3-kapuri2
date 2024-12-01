@@ -1,29 +1,37 @@
 #include "Player.h"
 
+// after step 2. after we insert a new position to the head of the list check whether the new position consumes food. if it doesnt, remove the tail. if it does, keep the tail
 
 Player::Player(GameMechs* thisGMRef)
 {
     mainGameMechsRef = thisGMRef;
+    playerPosList = new objPosArrayList();
     myDir = STOP;
 
+    objPos headPos(thisGMRef->getBoardSizeX()/2, thisGMRef->getBoardSizeY()/2, '*');
+
+    playerPosList->insertHead(headPos);
+
     // more actions to be included
-    playerPos.pos->x= mainGameMechsRef -> getBoardSizeX() / 2;
-    playerPos.pos->y= mainGameMechsRef -> getBoardSizeY() / 2;
-    playerPos.symbol = '*';
+    // playerPos.pos->x= mainGameMechsRef -> getBoardSizeX() / 2;
+    // playerPos.pos->y= mainGameMechsRef -> getBoardSizeY() / 2;
+    // playerPos.symbol = '*';
 }
 
 
 Player::~Player()
 {
     // delete any heap members here
-    delete playerPos.pos;
+    //delete playerPos.pos;
     delete mainGameMechsRef;
+    delete playerPosList;
 }
 
-objPos Player::getPlayerPos() const
+objPosArrayList* Player::getPlayerPos() const
 {
     // return the reference to the playerPos arrray list
-    return playerPos;
+    //returning the reference to the player objPos array list
+    return playerPosList;
 }
 
 void Player::updatePlayerDir()
@@ -74,6 +82,10 @@ void Player::updatePlayerDir()
 
 void Player::movePlayer()
 {
+
+// (up here) create a temp objpos to calculate the new head position. probably should get the head element of the playerposlist as a good starting point
+// (down in the if statement) calculate the new position of the head using the temp objpos
+
     // PPA3 Finite State Machine logic
  if (myDir == UP){
         playerPos.pos->y = (playerPos.pos->y-1);
@@ -99,6 +111,12 @@ void Player::movePlayer()
             playerPos.pos->x = mainGameMechsRef->getBoardSizeX()-2;
         }
     }
+    // insert temp objpos to the head of the list
+
+    //(later, like 3b): check if the new temp objpos overlaps w the food pos (get it from gamemech class)
+    //use is poition equal method from objpos class
+    //if overlap, food consumed. do not remove tail. then take the respective actions to increase the score 
+    // if no overlap, remove tail complete movement
 }
 
 // More methods to be added
