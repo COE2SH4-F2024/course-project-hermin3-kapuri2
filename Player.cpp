@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "objPosArrayList.h"
 
 // after step 2. after we insert a new position to the head of the list check whether the new position consumes food. if it doesnt, remove the tail. if it does, keep the tail
 
@@ -84,34 +85,38 @@ void Player::movePlayer()
 {
 
 // (up here) create a temp objpos to calculate the new head position. probably should get the head element of the playerposlist as a good starting point
+objPos temp = playerPosList -> getHeadElement();
 // (down in the if statement) calculate the new position of the head using the temp objpos
 
     // PPA3 Finite State Machine logic
- if (myDir == UP){
-        playerPos.pos->y = (playerPos.pos->y-1);
-        if (playerPos.pos->y == 0){
-            playerPos.pos->y = mainGameMechsRef->getBoardSizeY()-2;
+ if (myDir == UP){  
+        temp.pos->y = (temp.pos->y-1);
+        if (temp.pos->y == 0){
+            temp.pos->y = mainGameMechsRef->getBoardSizeY()-2;
         }
     }
     if (myDir == DOWN){
-        playerPos.pos->y = (playerPos.pos->y+1);
-        if (playerPos.pos->y == mainGameMechsRef->getBoardSizeY()-1){
-            playerPos.pos->y = 1;
+        temp.pos->y = (temp.pos->y+1);
+        if (temp.pos->y == mainGameMechsRef->getBoardSizeY()-1){
+            temp.pos->y = 1;
         }
     }
     if (myDir == RIGHT){
-        playerPos.pos->x = (playerPos.pos->x+1);
-        if (playerPos.pos->x == mainGameMechsRef->getBoardSizeX()-1){
-            playerPos.pos->x = 1;
+        temp.pos->x = (temp.pos->x+1);
+        if (temp.pos->x == mainGameMechsRef->getBoardSizeX()-1){
+            temp.pos->x = 1;
         }
     }
     if (myDir == LEFT){
-        playerPos.pos->x = (playerPos.pos->x-1);
-        if (playerPos.pos->x == 0){
-            playerPos.pos->x = mainGameMechsRef->getBoardSizeX()-2;
+        temp.pos->x = (temp.pos->x-1);
+        if (temp.pos->x == 0){
+            temp.pos->x = mainGameMechsRef->getBoardSizeX()-2;
         }
     }
     // insert temp objpos to the head of the list
+    playerPosList -> insertHead(temp);
+    playerPosList -> removeTail();
+
 
     //(later, like 3b): check if the new temp objpos overlaps w the food pos (get it from gamemech class)
     //use is poition equal method from objpos class
