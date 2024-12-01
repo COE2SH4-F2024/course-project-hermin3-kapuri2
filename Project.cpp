@@ -76,7 +76,7 @@ void DrawScreen(void)
 {
     MacUILib_clearScreen();
     int i,j;
-    
+    bool printed=false;
     objPosArrayList* playerPos = myPlayer -> getPlayerPos();
     int playerSize = playerPos->getSize();
     objPos food = myGM -> getFoodPos();
@@ -88,24 +88,37 @@ void DrawScreen(void)
             for(int k=0; k< playerSize; k++){
                 objPos thisSeg = playerPos-> getElement(k);
                 // check if the current segment x, y pos matches the (i,j) coord. if yes, print the symbol.
-
+                if(i==(thisSeg.pos->x) && j==(thisSeg.pos->y))
+                {
+                    MacUILib_printf ("%c",thisSeg.symbol);
+                    printed=true;
+                    break;
+                }
                 // watch out we need to skip the if else clock below if we have printed something in the for loop (need bool and continue)
             }
+
             // do smth here to determine whether to continue with the if else or to move on to the next iteration of i-j
-            if (i==0 || i==xnum-1||j==0||j==ynum-1){
-                MacUILib_printf ("#");
+            if(printed==true)
+            {
+                continue;
             }
-            // else if (i == playerPos.pos->x && j == playerPos.pos->y){
-            //     MacUILib_printf("%c", playerPos.getSymbol());
-            // }
-            else if ( i == food.pos->x && j == food.pos->y){
-                MacUILib_printf("%c", food.symbol);
+            else
+            {
+                if (i==0 || i==xnum-1||j==0||j==ynum-1){
+                    MacUILib_printf ("#");
+                }
+                // else if (i == playerPos.pos->x && j == playerPos.pos->y){
+                //     MacUILib_printf("%c", playerPos.getSymbol());
+                // }
+                else if ( i == food.pos->x && j == food.pos->y){
+                    MacUILib_printf("%c", food.symbol);
+                }
+                else{
+                    MacUILib_printf (" ");// this might mess it up
+                }
             }
-            else{
-                MacUILib_printf (" ");// this might mess it up
-            }
-        }
         MacUILib_printf ("\n");
+        }
 
     }
     //foodPos.setObjPos(foodPos.pos->x,foodPos.pos->y, 'o');
