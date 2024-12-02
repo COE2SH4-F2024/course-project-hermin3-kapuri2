@@ -103,7 +103,10 @@ void DrawScreen(void)
         }
         MacUILib_printf ("\n");
     }
+    MacUILib_printf("\nCURRENT SCORE: %d \nCURRENT LENGTH: %d", myGM->getScore(), myGM->getScore()+1);
+    MacUILib_printf("\nUSE W,A,S,D TO MOVE AND CLICK BACKSPACE TO QUIT");
 }
+
 
 void LoopDelay(void)
 {
@@ -124,6 +127,7 @@ void CleanUp(void)
     else{
         MacUILib_printf("YOU WIN!");
     }
+    MacUILib_printf("\nFINAL SCORE: %d", myGM->getScore());
     delete myPlayer;
     delete myGM;
     MacUILib_uninit();

@@ -26,7 +26,7 @@ GameMechs::GameMechs(int boardX, int boardY)
     score = 0;
     boardSizeX = boardX;
     boardSizeY = boardY;
-    foodPos.setObjPos(5,5, 'o');
+    foodPos.setObjPos(5,5, 'z');
     
 }
 
@@ -123,7 +123,7 @@ void GameMechs:: generateFood(objPosArrayList* blockOff){
         }
 
         if (bad== false) {
-            foodPos.setObjPos(randX, randY, 'o'); 
+            foodPos.setObjPos(randX, randY, 'z'); 
         }
 
     } while (bad== true); 
