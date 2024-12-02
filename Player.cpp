@@ -89,7 +89,7 @@ objPos temp = playerPosList -> getHeadElement();
 // (down in the if statement) calculate the new position of the head using the temp objpos
 
     // PPA3 Finite State Machine logic
-    if (myDir == UP){  
+ if (myDir == UP){  
         temp.pos->y = (temp.pos->y-1);
         if (temp.pos->y == 0){
             temp.pos->y = mainGameMechsRef->getBoardSizeY()-2;
@@ -114,17 +114,8 @@ objPos temp = playerPosList -> getHeadElement();
         }
     }
     // insert temp objpos to the head of the list
-    if (temp.pos->x == mainGameMechsRef->getFoodPos().pos->x && temp.pos->y == mainGameMechsRef->getFoodPos().pos->y){
-        objPos tHead = objPos(mainGameMechsRef->getFoodPos().pos->x, mainGameMechsRef->getFoodPos().pos->y, '*');
-        playerPosList->insertHead(tHead);
-        mainGameMechsRef->generateFood(playerPosList);
-        mainGameMechsRef->incrementScore();
-
-    }
-    else{
-        playerPosList->insertHead(temp);
-        playerPosList->removeTail();
-    }
+    playerPosList -> insertHead(temp);
+    playerPosList -> removeTail();
 
 
     //(later, like 3b): check if the new temp objpos overlaps w the food pos (get it from gamemech class)
