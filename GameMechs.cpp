@@ -6,7 +6,6 @@
 
 GameMechs::GameMechs()
 {
-    srand(time(NULL));
     int randX2 = (rand() % (18)) + 1;
     int randY2 = (rand() % (8)) + 1;
     input =0;
@@ -15,10 +14,10 @@ GameMechs::GameMechs()
     score = 0;
     boardSizeX = 20;
     boardSizeY = 10;
-    foodPos.pos->x = 0;
-    foodPos.pos->y = 0;
-    foodPos.symbol = 'z';
-    //food.setObjPos(3,5, 'o');
+    // foodPos.pos->x = 0;
+    // foodPos.pos->y = 0;
+    // foodPos.symbol = 'z';
+    // //food.setObjPos(3,5, 'o');
     foodPos.setObjPos(getFoodPos().pos->x,getFoodPos().pos->y, 'z');
     
 }
@@ -57,7 +56,7 @@ void GameMechs::collectAsyncInput(){
     }
     if(input == 8) exitFlag = true;
 }
-char GameMechs::getInput() const
+char GameMechs::getInput() 
 {
     return input;
 }
@@ -105,47 +104,38 @@ void GameMechs::clearInput()
 
 // More methods should be added here
 
-void GameMechs:: generateFood(const objPosArrayList* blockOff){
+void GameMechs:: generateFood(objPosArrayList* blockOff){
 
-    Player *myPlayer;
-    bool bad= true;
-    int randX;
-    int randY;
     int xRange = getBoardSizeX();
     int yRange = getBoardSizeY();
-    int randX2 = (rand() % (18)) + 1;
-    int randY2 = (rand() % (8)) + 1;
-    foodPos.pos->x = randX2;
-    foodPos.pos->y = randY2;
-    objPosArrayList* playerPos = myPlayer -> getPlayerPos();
-    srand(time(NULL));
-    foodPos.symbol='z';
-    while (bad == true){
+    bool bad;
+
+    srand(time(NULL)); 
+
+    do {
         bad = false;
-        randX = (rand() % (18)) + 1;
-        randY = (rand() % (8)) + 1;
-    for(int i=0;i<blockOff->getSize()-1;i++)
-    {
-        if(randX == foodPos.pos->x && randY == foodPos.pos->y||randX == blockOff->getElement(i).pos->x && randY == blockOff->getElement(i).pos->y)
-        {
-            bad =true;
-        }
-        if (bad ==false){
-            foodPos.pos->x = randX;
-            foodPos.pos->y = randY;
-        }
-        else {
-            bad =true;
-        }
+
         
-    }
-    }
-        
-        
-    // food.setObjPos(foodPos.pos->x,foodPos.pos->y, 'o');
-    // food.setObjPos(foodPos.pos->x,foodPos.pos->y, 'o');
-    // food.setObjPos(getFoodPos().pos->x,getFoodPos().pos->y, 'o');
+        int randX = (rand() % (xRange - 2)) + 1; 
+        int randY = (rand() % (yRange - 2)) + 1;
+
+       
+        for (int i = 0; i < blockOff->getSize(); i++) {
+            objPos ThisSeg = blockOff->getElement(i);
+            if (randX == ThisSeg.pos->x && randY == ThisSeg.pos->y) {
+                bad = true;
+                break;
+            }
+        }
+
+       
+        if (bad== false) {
+            foodPos.setObjPos(randX, randY, 'o'); 
+        }
+
+    } while (bad== true); 
 }
+        
 objPos GameMechs:: getFoodPos() const{
     return foodPos;
 }

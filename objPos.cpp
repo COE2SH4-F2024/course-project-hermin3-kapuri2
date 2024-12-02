@@ -26,6 +26,7 @@ objPos::objPos(const objPos& former){
 
 }
 objPos& objPos:: operator=(const objPos& old){
+    delete pos;
     pos = new Pos;
     pos->x = old.pos->x;
     pos->y = old.pos->y;

@@ -23,7 +23,7 @@ class Player
         objPosArrayList* getPlayerPos() const; // Upgrade this in iteration 3.       
         void updatePlayerDir();
         void movePlayer();
-
+        //void increasePlayerLength();
         // More methods to be added here
 
     private:

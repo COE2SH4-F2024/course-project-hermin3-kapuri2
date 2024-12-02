@@ -26,7 +26,7 @@ int main(void)
 
     Initialize();
 
-    while(myGM->getExitFlagStatus() ==false)  
+    while(myGM->getExitFlagStatus() ==false&& myGM->getLoseFlagStatus()==false)  
     {
         GetInput();
         RunLogic();
@@ -57,9 +57,9 @@ void GetInput(void)
 void RunLogic(void)
 {
     
-    if (myGM->getInput() == 'p'){
-        myGM->generateFood(myPlayer->getPlayerPos());
-    }
+    // if (myGM->getInput() == 'p'){
+    //     myGM->generateFood(myPlayer->getPlayerPos());
+    // }
     // else if(myGM->getInput() == 'i'){
     //     myGM->incrementScore();
     // }
@@ -84,34 +84,36 @@ void DrawScreen(void)
     int const ynum = myGM -> getBoardSizeY();   
     for(j=0;j<ynum;j++){
         for (i=0; i<xnum; i++){
-            printed= false;
-            // we now need to iterate thru the playerpos array list to print the whole list
-            for(int k=0; k< playerSize; k++){
-                printed = false;
-                objPos thisSeg = playerPos-> getElement(k);
-                // check if the current segment x, y pos matches the (i,j) coord. if yes, print the symbol.
-                if(i==(thisSeg.pos->x) && j==(thisSeg.pos->y))
-                {
-                    MacUILib_printf ("%c",thisSeg.symbol);
-                    printed=true;
-                    continue;
-                }
-                else if ( i == food.pos->x && j == food.pos->y){
-                    MacUILib_printf("%c", food.symbol);
-                    printed= true;
-                    continue;
-            }
-                
-                // watch out we need to skip the if else clock below if we have printed something in the for loop (need bool and continue)
-            }
-            // do smth here to determine whether to continue with the if else or to move on to the next iteration of i-j
             if (i==0 || i==xnum-1||j==0||j==ynum-1){
                 MacUILib_printf ("#");
             }
-            else if (printed == false){
-            
-                    MacUILib_printf (" ");// this might mess it up
+            else if ( i == food.pos->x && j == food.pos->y){
+                    MacUILib_printf("%c", food.symbol);
             }
+            else{
+                printed= false;
+                // we now need to iterate thru the playerpos array list to print the whole list
+                for(int k=0; k< playerSize; k++){
+                    printed = false;
+                    objPos thisSeg = playerPos-> getElement(k);
+                    // check if the current segment x, y pos matches the (i,j) coord. if yes, print the symbol.
+                    if(i==(thisSeg.pos->x) && j==(thisSeg.pos->y))
+                    {
+                        MacUILib_printf ("%c",thisSeg.symbol);
+                        printed=true;
+                        break;
+                    }
+                    
+                }
+                if (printed == false){
+                    MacUILib_printf (" ");// this might mess it up
+                }
+            }
+                // watch out we need to skip the if else clock below if we have printed something in the for loop (need bool and continue)
+            
+            // do smth here to determine whether to continue with the if else or to move on to the next iteration of i-j
+           
+           
             // else if (i == playerPos.pos->x && j == playerPos.pos->y){
             //     MacUILib_printf("%c", playerPos.getSymbol());
             // }
@@ -121,8 +123,8 @@ void DrawScreen(void)
 
     }
     //foodPos.setObjPos(foodPos.pos->x,foodPos.pos->y, 'o');
-    // MacUILib_printf("Player[x,y] - [%d, %d] , %c",playerPos.pos->x,playerPos.pos->y,playerPos.symbol);
-    // MacUILib_printf("Player[x,y] - [%d, %d] %d, %d",food.pos->x, food.pos->y, xnum, ynum);
+    //MacUILib_printf("Player[x,y] - [%d, %d] , %c",playerPos.pos->x,playerPos.pos->y,playerPos.symbol);
+    //MacUILib_printf("Player[x,y] - [%d, %d] %d, %d",food.pos->x, food.pos->y, xnum, ynum);
 }
 
 // void DrawScreen(void)
@@ -195,6 +197,9 @@ void CleanUp(void)
     if (myGM-> getLoseFlagStatus() == true){
         MacUILib_printf("Snake ran into itself. Game Over.");
     } 
+    else if(myGM->getExitFlagStatus()==true){
+        MacUILib_printf("You Quit");
+    }
     else{
         MacUILib_printf("YOU WIN!");
     }

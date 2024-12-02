@@ -1,13 +1,14 @@
 #include "Player.h"
 #include "objPosArrayList.h"
+#include "MacUILib.h"
 
 // after step 2. after we insert a new position to the head of the list check whether the new position consumes food. if it doesnt, remove the tail. if it does, keep the tail
-
 Player::Player(GameMechs* thisGMRef)
 {
     mainGameMechsRef = thisGMRef;
     playerPosList = new objPosArrayList();
     myDir = STOP;
+    
 
     objPos headPos(thisGMRef->getBoardSizeX()/2, thisGMRef->getBoardSizeY()/2, '*');
 
@@ -24,7 +25,7 @@ Player::~Player()
 {
     // delete any heap members here
     //delete playerPos.pos;
-    delete mainGameMechsRef;
+    //delete mainGameMechsRef;
     delete playerPosList;
 }
 
@@ -43,7 +44,9 @@ void Player::updatePlayerDir()
     {
         switch(input)
         {                      
-
+            case 8:
+            mainGameMechsRef->setExitTrue();
+            break;
             case 'w':
             case 'W':
                 if (myDir == RIGHT||myDir == LEFT|| myDir == STOP){
@@ -113,9 +116,39 @@ objPos temp = playerPosList -> getHeadElement();
             temp.pos->x = mainGameMechsRef->getBoardSizeX()-2;
         }
     }
-    // insert temp objpos to the head of the list
-    playerPosList -> insertHead(temp);
-    playerPosList -> removeTail();
+
+    objPos newHead = { temp.pos->x, temp.pos->y, '*' };
+    playerPosList->insertHead(newHead);
+    playerPosList->removeTail();
+
+    //Check for self collision
+
+    int playsize = playerPosList->getSize();
+    int headX = playerPosList->getHeadElement().pos->x;
+    int headY = playerPosList->getHeadElement().pos->y;
+
+    for(int k = 1; k < playsize;k++){
+        objPos tempPos = playerPosList->getElement(k);
+        if(headX == tempPos.pos->x && headY ==tempPos.pos->y ){
+            mainGameMechsRef->setLoseFlag();
+            return;
+        }
+    }
+
+    
+ 
+    objPos playerpos = playerPosList->getHeadElement();
+    objPos foodpos = mainGameMechsRef->getFoodPos();
+    if(playerpos.pos->x ==  foodpos.pos->x && playerpos.pos->y ==  foodpos.pos->y){
+        mainGameMechsRef-> incrementScore();
+        objPos NewTail = playerPosList->getTailElement();
+        playerPosList->insertTail(NewTail);
+        mainGameMechsRef-> generateFood(playerPosList);
+        
+    }
+
+    
+    
 
 
     //(later, like 3b): check if the new temp objpos overlaps w the food pos (get it from gamemech class)
@@ -125,3 +158,13 @@ objPos temp = playerPosList -> getHeadElement();
 }
 
 // More methods to be added
+
+// void Player:: increasePlayerLength(){
+//     objPos temp = playerPosList -> getHeadElement();
+//     if (temp.pos->x == mainGameMechsRef->getFoodPos().pos->x && temp.pos->y == mainGameMechsRef->getFoodPos().pos->y)
+//     {
+//         playerPosList->insertHead(temp);
+//         mainGameMechsRef->generateFood(playerPosList);
+//     }
+    
+// }
