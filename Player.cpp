@@ -114,8 +114,24 @@ objPos temp = playerPosList -> getHeadElement();
         }
     }
     // insert temp objpos to the head of the list
-    playerPosList -> insertHead(temp);
-    playerPosList -> removeTail();
+    if (temp.pos->x == mainGameMechsRef->getFoodPos().pos->x && temp.pos->y == mainGameMechsRef->getFoodPos().pos->y)
+    {
+        playerPosList->insertHead(objPos(temp.pos->x, temp.pos->y, '*'));
+        mainGameMechsRef->generateFood(playerPosList);
+    }
+    else{
+    playerPosList->insertHead(objPos(temp.pos->x, temp.pos->y, '*'));
+    playerPosList->removeTail();
+    }
+    // if (temp.pos->x == mainGameMechsRef->getFoodPos().pos->x && temp.pos->y == mainGameMechsRef->getFoodPos().pos->y)
+    // {
+    //     playerPosList->insertHead(objPos(temp.pos->x, temp.pos->y, '*'));
+    //     mainGameMechsRef->generateFood(playerPosList);
+    // }
+    // else{
+    // playerPosList->insertHead(objPos(temp.pos->x, temp.pos->y, '*'));
+    // playerPosList->removeTail();
+    // }
 
 
     //(later, like 3b): check if the new temp objpos overlaps w the food pos (get it from gamemech class)
