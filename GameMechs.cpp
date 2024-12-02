@@ -14,10 +14,6 @@ GameMechs::GameMechs()
     score = 0;
     boardSizeX = 20;
     boardSizeY = 10;
-    // foodPos.pos->x = 0;
-    // foodPos.pos->y = 0;
-    // foodPos.symbol = 'z';
-    // //food.setObjPos(3,5, 'o');
     foodPos.setObjPos(getFoodPos().pos->x,getFoodPos().pos->y, 'z');
     
 }
@@ -115,11 +111,9 @@ void GameMechs:: generateFood(objPosArrayList* blockOff){
     do {
         bad = false;
 
-        
         int randX = (rand() % (xRange - 2)) + 1; 
         int randY = (rand() % (yRange - 2)) + 1;
 
-       
         for (int i = 0; i < blockOff->getSize(); i++) {
             objPos ThisSeg = blockOff->getElement(i);
             if (randX == ThisSeg.pos->x && randY == ThisSeg.pos->y) {
@@ -128,7 +122,6 @@ void GameMechs:: generateFood(objPosArrayList* blockOff){
             }
         }
 
-       
         if (bad== false) {
             foodPos.setObjPos(randX, randY, 'o'); 
         }

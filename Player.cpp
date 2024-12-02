@@ -9,29 +9,19 @@ Player::Player(GameMechs* thisGMRef)
     playerPosList = new objPosArrayList();
     myDir = STOP;
     
-
     objPos headPos(thisGMRef->getBoardSizeX()/2, thisGMRef->getBoardSizeY()/2, '*');
 
     playerPosList->insertHead(headPos);
-
-    // more actions to be included
-    // playerPos.pos->x= mainGameMechsRef -> getBoardSizeX() / 2;
-    // playerPos.pos->y= mainGameMechsRef -> getBoardSizeY() / 2;
-    // playerPos.symbol = '*';
 }
 
 
 Player::~Player()
 {
-    // delete any heap members here
-    //delete playerPos.pos;
-    //delete mainGameMechsRef;
     delete playerPosList;
 }
 
 objPosArrayList* Player::getPlayerPos() const
 {
-    // return the reference to the playerPos arrray list
     //returning the reference to the player objPos array list
     return playerPosList;
 }
@@ -123,20 +113,18 @@ objPos temp = playerPosList -> getHeadElement();
 
     //Check for self collision
 
-    int playsize = playerPosList->getSize();
-    int headX = playerPosList->getHeadElement().pos->x;
-    int headY = playerPosList->getHeadElement().pos->y;
+    int sizeofPlayer = playerPosList->getSize();
+    int Head_X = playerPosList->getHeadElement().pos->x;
+    int Head_Y = playerPosList->getHeadElement().pos->y;
 
-    for(int k = 1; k < playsize;k++){
-        objPos tempPos = playerPosList->getElement(k);
-        if(headX == tempPos.pos->x && headY ==tempPos.pos->y ){
+    for(int i = 1; i < sizeofPlayer;i++){
+        objPos tempPos = playerPosList->getElement(i);
+        if(Head_X == tempPos.pos->x && Head_Y ==tempPos.pos->y){
             mainGameMechsRef->setLoseFlag();
             return;
         }
     }
-
-    
- 
+    // food consumption
     objPos playerpos = playerPosList->getHeadElement();
     objPos foodpos = mainGameMechsRef->getFoodPos();
     if(playerpos.pos->x ==  foodpos.pos->x && playerpos.pos->y ==  foodpos.pos->y){
@@ -144,7 +132,6 @@ objPos temp = playerPosList -> getHeadElement();
         objPos NewTail = playerPosList->getTailElement();
         playerPosList->insertTail(NewTail);
         mainGameMechsRef-> generateFood(playerPosList);
-        
     }
 
     
